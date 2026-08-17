@@ -1,0 +1,6 @@
+models/
+.cache/
+.llama.pid
+.llama.log
+*.gguf
+.DS_Store
