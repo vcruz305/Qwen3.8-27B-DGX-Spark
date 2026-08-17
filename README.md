@@ -4,8 +4,6 @@
 
 Copy-paste serve for **Qwen3.8-27B GGUF** with **llama.cpp** on a single **NVIDIA DGX Spark (GB10 / SM121, ~128 GB unified)**.
 
-This is **not** the [Turing 24 GB recipe](https://github.com/vcruz305/Qwen3.8-27B-Turing-RTX-6000), **not** the [Ada 48 GB recipe](https://github.com/vcruz305/Qwen3.8-27B-Ada-RTX-6000), and **not** the Bakeer vLLM + NVFP4 + DSpark pack. One Spark. GGUF. llama.cpp.
-
 - Stock pack: [vcruz305/Qwen3.8-27B-GGUF](https://huggingface.co/vcruz305/Qwen3.8-27B-GGUF)
 - AEON Ultimate bake (MTP in-file): [vcruz305/Qwen3.8-27B-AEON-ULTIMATE-UNCENSORED-GGUF](https://huggingface.co/vcruz305/Qwen3.8-27B-AEON-ULTIMATE-UNCENSORED-GGUF)
 - Measured **pp512 / tg128** on two Sparks, 2026-08-16
@@ -125,13 +123,6 @@ llama-server \
   --parallel 1 --jinja --reasoning-format deepseek \
   -ngl 99 -fa on -b 512 -ub 512 -c 32768
 ```
-
-## What this repo is not
-
-- **Turing RTX 6000 24 GB** — use [Qwen3.8-27B-Turing-RTX-6000](https://github.com/vcruz305/Qwen3.8-27B-Turing-RTX-6000)
-- **Ada RTX 6000 48 GB** — use [Qwen3.8-27B-Ada-RTX-6000](https://github.com/vcruz305/Qwen3.8-27B-Ada-RTX-6000)
-- **vLLM + Unsloth NVFP4 + DSpark** — that is the Bakeer 75 tok/s path, not these GGUFs
-- **Multi-Spark TP** — one box only
 
 ## Credits
 
