@@ -11,14 +11,14 @@ Weights:
 Serve:
 ```
 VLLM_MARLIN_USE_ATOMIC_ADD=1
-vllm serve /home/victor/qwen38-speed/bakeer/nvfp4 \
+vllm serve /path/to/nvfp4 \
   --served-model-name qwen3.8-27b \
   --host 127.0.0.1 --port 8002 \
   --max-model-len 262144 \
   --gpu-memory-utilization 0.85 \
   --max-num-batched-tokens 16384 \
   --enable-prefix-caching \
-  --speculative-config '{"method":"dspark","model":"/home/victor/qwen38-speed/bakeer/dspark","num_speculative_tokens":K,"draft_sample_method":"probabilistic"}'
+  --speculative-config '{"method":"dspark","model":"/path/to/dspark","num_speculative_tokens":K,"draft_sample_method":"probabilistic"}'
 ```
 
 Kernel path this build picked: FlashInferCutlassNvFp4LinearKernel, FLASHINFER attn, KV cache 1,357,257 tokens at k=7.
