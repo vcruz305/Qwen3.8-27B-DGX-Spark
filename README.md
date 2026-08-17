@@ -23,6 +23,7 @@ One stream. Spark 9f73 unless noted. vLLM rows are `completion_tokens / wall`, t
 | 9 | llama.cpp AEON Q4_K_M + baked MTP (9f73) | 12.19 tg128 | — | sixcat run used this |
 | 10 | llama.cpp stock Q5_K_M | 10.82 tg128 | — | |
 | 11 | llama.cpp stock Q6_K | 9.42 tg128 | — | |
+| 12 | **SGLang FP8** Qwen, mem=0.80 (b610) | **7.85** | **7.78** cached | same pins as NVFP4 |
 
 Do not average vLLM wall-clock tok/s with llama.cpp tg128.
 
@@ -95,6 +96,21 @@ python3 ./vllm-smoke.py --base http://127.0.0.1:30000/v1 --label sglang-nvfp4-0.
 | Repeat file (cap 3000, cached) | 2328 | 194.54 | **11.97** |
 
 Host SGLang `0.5.17` on b610. Target: [RadixArk/Qwen3.8-27B-NVFP4](https://huggingface.co/RadixArk/Qwen3.8-27B-NVFP4). Receipt: [`logs/sglang-nvfp4-20260817.md`](logs/sglang-nvfp4-20260817.md). No DSpark / no MTP. Do not treat this as a vLLM replacement.
+
+### FP8 (same pins)
+
+```bash
+QUANT=fp8 MEM=0.80 EXTRA_ARGS='--disable-flashinfer-autotune --cuda-graph-max-bs 8 --mamba-full-memory-ratio 4.59' \
+  ./sglang-start.sh
+```
+
+| Workload | out tok | wall s | tok/s |
+|---|---:|---:|---:|
+| New write (cap 400, warm) | 119 | 15.16 | **7.85** |
+| Repeat file (cap 3000) | 2323 | 298.58 | 7.78 |
+| Repeat file (cap 3000, cached) | 2323 | 298.65 | **7.78** |
+
+Target: [Qwen/Qwen3.8-27B-FP8](https://huggingface.co/Qwen/Qwen3.8-27B-FP8). Receipt: [`logs/sglang-fp8-20260817.md`](logs/sglang-fp8-20260817.md). Weights 29.03 GB. Slower than NVFP4 on this cell.
 
 ## llama.cpp GGUF (slower decode)
 
