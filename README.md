@@ -6,8 +6,8 @@ Copy-paste serve for **Qwen3.8-27B GGUF** with **llama.cpp** on a single **NVIDI
 
 - Stock pack: [vcruz305/Qwen3.8-27B-GGUF](https://huggingface.co/vcruz305/Qwen3.8-27B-GGUF)
 - AEON Ultimate bake (MTP in-file): [vcruz305/Qwen3.8-27B-AEON-ULTIMATE-UNCENSORED-GGUF](https://huggingface.co/vcruz305/Qwen3.8-27B-AEON-ULTIMATE-UNCENSORED-GGUF)
-- Measured **pp512 / tg128** on two Sparks, 2026-08-16
-- Default pick: **stock Q4_K_M** (fastest GGUF decode here)
+- Measured **pp512 / tg128** (llama.cpp) and **vLLM NVFP4 + DSpark** on Spark, 2026-08-16
+- Default GGUF pick: **stock Q4_K_M** (fastest GGUF decode here)
 
 ## What tg128 and pp512 mean
 
@@ -18,11 +18,11 @@ Copy-paste serve for **Qwen3.8-27B GGUF** with **llama.cpp** on a single **NVIDI
 | **tg128** | Generate 128 new tokens after the prompt is already in KV | **Decode tok/s** — this is the “tok/s” people quote |
 | **pp512** | Ingest a 512-token prompt (no generation) | **Prefill tok/s** — prompt processing |
 
-**Quote tg128** when someone asks “how fast is it?” That is tokens out of the model while chatting.
+**Quote tg128** when someone asks “how fast is the GGUF?” That is tokens out of llama.cpp while chatting.
 
 **pp512** is how fast the prompt is eaten. It is usually hundreds of tok/s. It is not chat speed.
 
-Bakeer “75 tok/s” is neither of these. It is vLLM + Unsloth NVFP4 + DSpark `k=14` on an **edit-heavy** 3k-token rewrite. Fresh gen on that stack is ~29 tok/s. Different weights, different engine.
+vLLM numbers below are a different engine (NVFP4 + DSpark). Do not average them with tg128.
 
 ## Requirements
 
@@ -107,7 +107,49 @@ Receipts: [`logs/sixcat-stock-q4km.json`](logs/sixcat-stock-q4km.json), [`logs/s
 python -m sixcat --base-url http://127.0.0.1:8085/v1 --model qwen38-27b --limit 20 --max-minutes 30 --out run.json
 ```
 
-Q8 was not benched. llama-cli `draft-mtp` / ngram did not yield a clean timed run on this pass.
+## vLLM NVFP4 + DSpark (this run)
+
+Single Spark 9f73. Host vLLM (no Docker). One stream. `completion_tokens / wall`. Thinking off.
+
+- Target: [unsloth/Qwen3.8-27B-NVFP4](https://huggingface.co/unsloth/Qwen3.8-27B-NVFP4)
+- Drafter: [Doopeworld/Qwen3.8-27B-DSpark-vLLM](https://huggingface.co/Doopeworld/Qwen3.8-27B-DSpark-vLLM)
+- Receipt: [`logs/vllm-nvfp4-dspark-20260816.md`](logs/vllm-nvfp4-dspark-20260816.md)
+
+**Fresh** is a short “write this module” prompt. **Rewrite** already has the source in the prompt and asks to add a method to every class, then dump the file. Rewrite is high draft-accept. A new-question harness tracks the fresh column.
+
+### k=7
+
+| Workload | out tok | wall s | tok/s |
+|---|---:|---:|---:|
+| Fresh (cap 400) | 146 | 3.62 | **40.33** |
+| Rewrite (cap 1500) | 1140 | 18.06 | 63.12 |
+| Rewrite (cap 3000) | 2300 | 35.68 | **64.45** |
+
+Draft accept after those three: **98.8%** (3134 / 3171).
+
+### k=14
+
+| Workload | out tok | wall s | tok/s |
+|---|---:|---:|---:|
+| Fresh (cap 400) | 146 | 3.82 | **38.19** |
+| Rewrite (cap 1500) | 1145 | 15.28 | **74.93** |
+| Rewrite (cap 3000) | 2300 | 30.85 | **74.56** |
+
+k=14 is slower on fresh and faster on rewrite. Quote **38.19** for a new-question harness.
+
+```bash
+VLLM_MARLIN_USE_ATOMIC_ADD=1 \
+vllm serve /path/to/nvfp4 \
+  --served-model-name qwen3.8-27b \
+  --host 127.0.0.1 --port 8002 \
+  --max-model-len 262144 \
+  --gpu-memory-utilization 0.85 \
+  --max-num-batched-tokens 16384 \
+  --enable-prefix-caching \
+  --speculative-config '{"method":"dspark","model":"/path/to/dspark","num_speculative_tokens":7,"draft_sample_method":"probabilistic"}'
+```
+
+Q8 GGUF was not benched. llama-cli `draft-mtp` / ngram did not yield a clean timed run on this pass.
 
 Same GGUF family on other cards (different repos, do not average):
 
@@ -152,5 +194,8 @@ llama-server \
 - [Qwen/Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B) — base
 - [AEON-7](https://huggingface.co/AEON-7) — abliterated BF16
 - [vcruz305](https://huggingface.co/vcruz305) — GGUF packs
+- [unsloth/Qwen3.8-27B-NVFP4](https://huggingface.co/unsloth/Qwen3.8-27B-NVFP4) — 4-bit target
+- [Doopeworld/Qwen3.8-27B-DSpark-vLLM](https://huggingface.co/Doopeworld/Qwen3.8-27B-DSpark-vLLM) — drafter
 - [sixcat-eval](https://github.com/vcruz305/sixcat-eval) — quality battery
 - [llama.cpp](https://github.com/ggml-org/llama.cpp)
+- [vLLM](https://github.com/vllm-project/vllm)

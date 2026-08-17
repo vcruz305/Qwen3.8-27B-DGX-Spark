@@ -1,0 +1,24 @@
+{
+  "k": 14,
+  "fresh_400": {
+    "wall_s": 3.82,
+    "prompt_tokens": 32,
+    "completion_tokens": 146,
+    "tok_s": 38.19,
+    "finish": "stop"
+  },
+  "edit_1500": {
+    "wall_s": 15.28,
+    "prompt_tokens": 738,
+    "completion_tokens": 1145,
+    "tok_s": 74.93,
+    "finish": "stop"
+  },
+  "edit_3000": {
+    "wall_s": 30.85,
+    "prompt_tokens": 1458,
+    "completion_tokens": 2300,
+    "tok_s": 74.56,
+    "finish": "stop"
+  }
+}
