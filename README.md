@@ -145,6 +145,8 @@ k=14 is slower on a **cold** first request (38.19) and faster on rewrite. After 
 
 Quote **50.13** for a new-question harness after one warmup ping. Quote **38.19** only as first-request / cold start.
 
+Tried and lost vs that row: `--max-num-seqs 1` + 32k (fresh **47.36**), warm k=7 (fresh **39.14** / rewrite **64**), in-file MTP n=3 (fresh **29.61** / rewrite **32**). Keep wide k=14.
+
 ```bash
 VLLM_MARLIN_USE_ATOMIC_ADD=1 \
 vllm serve /path/to/nvfp4 \
@@ -154,7 +156,7 @@ vllm serve /path/to/nvfp4 \
   --gpu-memory-utilization 0.85 \
   --max-num-batched-tokens 16384 \
   --enable-prefix-caching \
-  --speculative-config '{"method":"dspark","model":"/path/to/dspark","num_speculative_tokens":7,"draft_sample_method":"probabilistic"}'
+  --speculative-config '{"method":"dspark","model":"/path/to/dspark","num_speculative_tokens":14,"draft_sample_method":"probabilistic"}'
 ```
 
 Q8 GGUF was not benched. llama-cli `draft-mtp` / ngram did not yield a clean timed run on this pass.
