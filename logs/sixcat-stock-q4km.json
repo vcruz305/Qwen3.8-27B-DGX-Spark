@@ -1,0 +1,1118 @@
+{
+  "model": "qwen38-27b",
+  "base_url": "http://127.0.0.1:8085/v1",
+  "limit": 20,
+  "timed_out": false,
+  "categories": {
+    "knowledge": 88.75,
+    "math": 40.0,
+    "truth": 85.0,
+    "instruct": 80.0,
+    "code": 100.0,
+    "tools": 100.0
+  },
+  "overall": 82.29166666666667,
+  "n": {
+    "knowledge": 80,
+    "math": 20,
+    "truth": 20,
+    "instruct": 20,
+    "code": 20,
+    "tools": 20
+  },
+  "log": "/home/victor/qwen38-speed/sixcat-stock-q4km.jsonl",
+  "items": {
+    "knowledge": [
+      {
+        "id": "mmlu:0",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "mmlu:1",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "mmlu:2",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:3",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:4",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "mmlu:5",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "mmlu:6",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:7",
+        "ok": false,
+        "pred": "C",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:8",
+        "ok": false,
+        "pred": "C",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:9",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "mmlu:10",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:11",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:12",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:13",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "mmlu:14",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:15",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "mmlu:16",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "mmlu:17",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "mmlu:18",
+        "ok": false,
+        "pred": "C",
+        "gold": "A"
+      },
+      {
+        "id": "mmlu:19",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "arc:0",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "arc:1",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "arc:2",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "arc:3",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "arc:4",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "arc:5",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "arc:6",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "arc:7",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "arc:8",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "arc:9",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "arc:10",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "arc:11",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "arc:12",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "arc:13",
+        "ok": false,
+        "pred": "B",
+        "gold": "D"
+      },
+      {
+        "id": "arc:14",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "arc:15",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "arc:16",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "arc:17",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "arc:18",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "arc:19",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:0",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "hellaswag:1",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:2",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "hellaswag:3",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "hellaswag:4",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "hellaswag:5",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "hellaswag:6",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "hellaswag:7",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:8",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "hellaswag:9",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:10",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "hellaswag:11",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "hellaswag:12",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:13",
+        "ok": true,
+        "pred": "C",
+        "gold": "C"
+      },
+      {
+        "id": "hellaswag:14",
+        "ok": false,
+        "pred": "C",
+        "gold": "B"
+      },
+      {
+        "id": "hellaswag:15",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "hellaswag:16",
+        "ok": false,
+        "pred": "B",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:17",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "hellaswag:18",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "hellaswag:19",
+        "ok": true,
+        "pred": "D",
+        "gold": "D"
+      },
+      {
+        "id": "winogrande:0",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:1",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:2",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:3",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:4",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:5",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:6",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:7",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:8",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:9",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:10",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:11",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:12",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:13",
+        "ok": false,
+        "pred": "B",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:14",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:15",
+        "ok": true,
+        "pred": "B",
+        "gold": "B"
+      },
+      {
+        "id": "winogrande:16",
+        "ok": false,
+        "pred": "B",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:17",
+        "ok": false,
+        "pred": "B",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:18",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "winogrande:19",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      }
+    ],
+    "math": [
+      {
+        "id": "gsm:0",
+        "ok": false,
+        "pred": "4",
+        "gold": "29"
+      },
+      {
+        "id": "gsm:1",
+        "ok": false,
+        "pred": "45",
+        "gold": "70"
+      },
+      {
+        "id": "gsm:2",
+        "ok": true,
+        "pred": "5",
+        "gold": "5"
+      },
+      {
+        "id": "gsm:3",
+        "ok": false,
+        "pred": "34",
+        "gold": "11232"
+      },
+      {
+        "id": "gsm:4",
+        "ok": true,
+        "pred": "5",
+        "gold": "5"
+      },
+      {
+        "id": "gsm:5",
+        "ok": false,
+        "pred": "3",
+        "gold": "150"
+      },
+      {
+        "id": "gsm:6",
+        "ok": true,
+        "pred": "4",
+        "gold": "4"
+      },
+      {
+        "id": "gsm:7",
+        "ok": true,
+        "pred": "5",
+        "gold": "5"
+      },
+      {
+        "id": "gsm:8",
+        "ok": false,
+        "pred": "80",
+        "gold": "2600"
+      },
+      {
+        "id": "gsm:9",
+        "ok": false,
+        "pred": "3375",
+        "gold": "6000"
+      },
+      {
+        "id": "gsm:10",
+        "ok": false,
+        "pred": "4",
+        "gold": "22"
+      },
+      {
+        "id": "gsm:11",
+        "ok": false,
+        "pred": "20",
+        "gold": "5"
+      },
+      {
+        "id": "gsm:12",
+        "ok": false,
+        "pred": "2",
+        "gold": "18"
+      },
+      {
+        "id": "gsm:13",
+        "ok": true,
+        "pred": "32",
+        "gold": "32"
+      },
+      {
+        "id": "gsm:14",
+        "ok": true,
+        "pred": "60",
+        "gold": "60"
+      },
+      {
+        "id": "gsm:15",
+        "ok": true,
+        "pred": "60",
+        "gold": "60"
+      },
+      {
+        "id": "gsm:16",
+        "ok": true,
+        "pred": "79",
+        "gold": "79"
+      },
+      {
+        "id": "gsm:17",
+        "ok": false,
+        "pred": "4",
+        "gold": "64"
+      },
+      {
+        "id": "gsm:18",
+        "ok": false,
+        "pred": "14",
+        "gold": "70"
+      },
+      {
+        "id": "gsm:19",
+        "ok": false,
+        "pred": ".3",
+        "gold": "90"
+      }
+    ],
+    "truth": [
+      {
+        "id": "tqa:0",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:1",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:2",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:3",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:4",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:5",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:6",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:7",
+        "ok": false,
+        "pred": "B",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:8",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:9",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:10",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:11",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:12",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:13",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:14",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:15",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:16",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:17",
+        "ok": false,
+        "pred": "C",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:18",
+        "ok": true,
+        "pred": "A",
+        "gold": "A"
+      },
+      {
+        "id": "tqa:19",
+        "ok": false,
+        "pred": "C",
+        "gold": "A"
+      }
+    ],
+    "instruct": [
+      {
+        "id": "ifeval:1000",
+        "ok": true,
+        "pred": "Raymond III was a significant figure in the history of the Crusader states during the twelfth century. He served as the ",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1001",
+        "ok": true,
+        "pred": "Hark! The sun doth rise upon the land of the rising sun.\nThou shalt embark upon this grand adventure with joy in thy hea",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1005",
+        "ok": true,
+        "pred": "# [Full Name]\n[Street Address] | [City, State, Zip Code]\n[Phone Number] | [Email Address]\n[LinkedIn Profile URL]\n\n### Pr",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1012",
+        "ok": true,
+        "pred": "Write an email to my boss telling him that I am quitting. The email must contain a title wrapped in double angular brack",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1019",
+        "ok": true,
+        "pred": "what are the boys holding?",
+        "gold": null
+      },
+      {
+        "id": "ifeval:102",
+        "ok": true,
+        "pred": "* \"I can't believe you're wearing those sweatpants to the gala,\" Clara said, adjusting the heavy crystal necklace around",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1021",
+        "ok": true,
+        "pred": "PARAGRAPH 1\nTHIS SENTENCE PRESENTS A DANGEROUSLY NAIVE VIEW OF LEGAL OBLIGATION BY IMPLYING THAT INDIVIDUAL MORAL JUDGME",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1040",
+        "ok": true,
+        "pred": "\"Matthias Algiers\nExperienced professional with a track record of STRATEGIC planning and LEADERSHIP. Skilled in DATA ana",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1051",
+        "ok": true,
+        "pred": "hey friend,\n\ni hope you\u2019re doing well. i\u2019m writing to you today with a simple but important request: please go and vote.",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1069",
+        "ok": false,
+        "pred": "Subject: Invitation to Join Our Strategic Planning Session\n\nDear Team Members\n\nI hope this message finds you in good hea",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1072",
+        "ok": false,
+        "pred": "**Suspended in Serenity: Why Your Hammock Might Be the Best Bed You\u2019ve Ever Owned**\n\nFor centuries, hammocks have been s",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1075",
+        "ok": true,
+        "pred": "{\n  \"product_name\": \"CloudSoft Diapers\",\n  \"tagline\": \"Gentle on Skin, Gentle on You\",\n  \"target_audience\": \"New parents",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1082",
+        "ok": false,
+        "pred": "Arthur blinked, the harsh fluorescent light of his office humming with a frequency that felt less like electricity and m",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1087",
+        "ok": true,
+        "pred": "the social network is a masterclass in modern filmmaking, blending sharp dialogue with a propulsive narrative that rarel",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1092",
+        "ok": false,
+        "pred": "**Chasing Neon and Silence: My Week in Japan**\n\nStepping off the plane in Tokyo, the air felt different\u2014crisp, clean, an",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1094",
+        "ok": true,
+        "pred": "{\n  \"famous_moms\": [\n    \"Marilyn Monroe\",\n    \"Oprah Winfrey\",\n    \"Michelle Obama\",\n    \"Lady Gaga\",\n    \"Beyonc\u00e9\"\n  ]",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1098",
+        "ok": true,
+        "pred": "The Lord\n******\nYahweh",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1107",
+        "ok": true,
+        "pred": "Why did the rocket break up with the satellite? It felt like they were drifting apart. ****** What do you call a rocket ",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1108",
+        "ok": true,
+        "pred": "\u0cb9\u0ccc\u0ca6\u0cc1, \u0cb9\u0ccd\u0caf\u0cbe\u0cae\u0ccd\u200c\u0cac\u0cb0\u0ccd\u0c97\u0cb0\u0ccd\u200c\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb8\u0ccd\u0caf\u0cbe\u0c82\u0ca1\u0ccd\u200c\u0cb5\u0cbf\u0c9a\u0ccd\u200c\u0c97\u0cb3\u0cc6\u0c82\u0ca6\u0cc1 \u0caa\u0cb0\u0cbf\u0c97\u0ca3\u0cbf\u0cb8\u0cb2\u0cbe\u0c97\u0cc1\u0ca4\u0ccd\u0ca4\u0ca6\u0cc6.",
+        "gold": null
+      },
+      {
+        "id": "ifeval:1122",
+        "ok": true,
+        "pred": "chasing the good life, one moment at a time. \ud83e\udd42\u2728 #playboy #goodlife #style #vibes",
+        "gold": null
+      }
+    ],
+    "code": [
+      {
+        "id": "HumanEval/0",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n   ",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/1",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\" Input to this function is a string containing multiple groups of nested parentheses. Your goal is",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/2",
+        "ok": true,
+        "pred": "```python\ndef truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and de",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/3",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef below_zero(operations: List[int]) -> bool:\n    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    r",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/4",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    \"\"\" For a given list of input numbers, calculate Mean Absolute Deviation\n    around the mean of this",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/5",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/6",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef parse_nested_parens(paren_string: str) -> List[int]:\n    result = []\n    for group in paren_string.split():\n        depth = 0\n        max_depth = 0\n        for ",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/7",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>>",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/8",
+        "ok": true,
+        "pred": "```python\nfrom typing import List, Tuple\n\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the int",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/9",
+        "ok": true,
+        "pred": "```python\nfrom typing import List, Tuple\n\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/10",
+        "ok": true,
+        "pred": "```python\ndef is_palindrome(string: str) -> bool:\n    \"\"\" Test if given string is a palindrome \"\"\"\n    return string == string[::-1]\n\n\ndef make_palindrome(string: str) -> str:\n    \"\"\" Find the shortes",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/11",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result ",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/12",
+        "ok": true,
+        "pred": "```python\nfrom typing import List, Optional\n\n\ndef longest(strings: List[str]) -> Optional[str]:\n    \"\"\" Out of list of strings, return the longest one. Return the first one in case of multiple\n    str",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/13",
+        "ok": true,
+        "pred": "```python\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divis",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/14",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', '",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/15",
+        "ok": true,
+        "pred": "```python\ndef string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/16",
+        "ok": true,
+        "pred": "```python\ndef count_distinct_characters(string: str) -> int:\n    \"\"\" Given a string, find out how many distinct characters (regardless of case) does it consist of\n    >>> count_distinct_characters('xy",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/17",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    Your task is t",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/18",
+        "ok": true,
+        "pred": "```python\ndef how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', ",
+        "gold": null
+      },
+      {
+        "id": "HumanEval/19",
+        "ok": true,
+        "pred": "```python\nfrom typing import List\n\n\ndef sort_numbers(numbers: str) -> str:\n    \"\"\" Input is a space-delimited string of numberals from 'zero' to 'nine'.\n    Valid choices are 'zero', 'one', 'two', 'th",
+        "gold": null
+      }
+    ],
+    "tools": [
+      {
+        "id": "tool:list /tmp",
+        "ok": true,
+        "pred": "list_dir",
+        "gold": null
+      },
+      {
+        "id": "tool:list .",
+        "ok": true,
+        "pred": "list_dir",
+        "gold": null
+      },
+      {
+        "id": "tool:read readme",
+        "ok": true,
+        "pred": "read_file",
+        "gold": null
+      },
+      {
+        "id": "tool:read cfg",
+        "ok": true,
+        "pred": "read_file",
+        "gold": null
+      },
+      {
+        "id": "tool:search weather",
+        "ok": true,
+        "pred": "search",
+        "gold": null
+      },
+      {
+        "id": "tool:search rust",
+        "ok": true,
+        "pred": "search",
+        "gold": null
+      },
+      {
+        "id": "tool:add 2 3",
+        "ok": true,
+        "pred": "add",
+        "gold": null
+      },
+      {
+        "id": "tool:add 10 15",
+        "ok": true,
+        "pred": "add",
+        "gold": null
+      },
+      {
+        "id": "tool:write note",
+        "ok": true,
+        "pred": "write_file",
+        "gold": null
+      },
+      {
+        "id": "tool:write log",
+        "ok": true,
+        "pred": "write_file",
+        "gold": null
+      },
+      {
+        "id": "tool:list home",
+        "ok": true,
+        "pred": "list_dir",
+        "gold": null
+      },
+      {
+        "id": "tool:read /etc/hosts",
+        "ok": true,
+        "pred": "read_file",
+        "gold": null
+      },
+      {
+        "id": "tool:search eval",
+        "ok": true,
+        "pred": "search",
+        "gold": null
+      },
+      {
+        "id": "tool:add 100 1",
+        "ok": true,
+        "pred": "add",
+        "gold": null
+      },
+      {
+        "id": "tool:write foo",
+        "ok": true,
+        "pred": "write_file",
+        "gold": null
+      },
+      {
+        "id": "tool:no-tool math",
+        "ok": true,
+        "pred": "56",
+        "gold": null
+      },
+      {
+        "id": "tool:no-tool capital",
+        "ok": true,
+        "pred": "Paris",
+        "gold": null
+      },
+      {
+        "id": "tool:search vs list",
+        "ok": true,
+        "pred": "search",
+        "gold": null
+      },
+      {
+        "id": "tool:read not list",
+        "ok": true,
+        "pred": "read_file",
+        "gold": null
+      },
+      {
+        "id": "tool:add not search",
+        "ok": true,
+        "pred": "add",
+        "gold": null
+      }
+    ]
+  }
+}

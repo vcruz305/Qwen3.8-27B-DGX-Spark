@@ -84,6 +84,29 @@ Binary: `/home/victor/nemotron-quant/llama.cpp/build/bin/llama-bench` build `70d
 
 **Default pick: stock Q4_K_M, 12.38 decode tok/s.** AEON is ~1.5% slower at the same quant (extra MTP tensors). Files were left on the Sparks under `/home/victor/qwen38-speed/`.
 
+## sixcat-eval (this run)
+
+Harness: [vcruz305/sixcat-eval](https://github.com/vcruz305/sixcat-eval). `--limit 20` (~180 items), `--max-minutes 30`, thinking off, `-c 262144 -ctk q4_0 -ctv q4_0`. Neither run timed out.
+
+- **b610 stock Q4** `qwen38-27b` spec off
+- **9f73 AEON bake Q4** `qwen38-aeon` `--spec-type draft-mtp --spec-draft-n-max 2`
+
+| | Stock Q4 | AEON bake Q4 + MTP | Δ |
+|---|---:|---:|---:|
+| **overall** | **82.3** | **80.0** | −2.3 |
+| knowledge | 88.8 | 90.0 | +1.2 |
+| math | 40.0 | 25.0 | −15.0 |
+| truth | 85.0 | 85.0 | 0 |
+| instruct | 80.0 | 80.0 | 0 |
+| code | 100 | 100 | 0 |
+| tools | 100 | 100 | 0 |
+
+Receipts: [`logs/sixcat-stock-q4km.json`](logs/sixcat-stock-q4km.json), [`logs/sixcat-aeon-q4km.json`](logs/sixcat-aeon-q4km.json).
+
+```bash
+python -m sixcat --base-url http://127.0.0.1:8085/v1 --model qwen38-27b --limit 20 --max-minutes 30 --out run.json
+```
+
 Q8 was not benched. llama-cli `draft-mtp` / ngram did not yield a clean timed run on this pass.
 
 Same GGUF family on other cards (different repos, do not average):
@@ -129,4 +152,5 @@ llama-server \
 - [Qwen/Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B) — base
 - [AEON-7](https://huggingface.co/AEON-7) — abliterated BF16
 - [vcruz305](https://huggingface.co/vcruz305) — GGUF packs
+- [sixcat-eval](https://github.com/vcruz305/sixcat-eval) — quality battery
 - [llama.cpp](https://github.com/ggml-org/llama.cpp)
