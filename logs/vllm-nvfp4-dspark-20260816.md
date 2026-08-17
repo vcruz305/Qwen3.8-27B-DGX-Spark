@@ -1,79 +1,65 @@
 # vLLM NVFP4 + DSpark — 2026-08-16 Spark 9f73 (GB10)
 
-Host vLLM `0.1.dev1+g75231eff2.d20260809` in `/home/victor/work/k3-vllm-venv`.
-No Docker. One stream. `completion_tokens / wall` (prefill inside the wall).
-Thinking off.
+Host vLLM `0.1.dev1+g75231eff2.d20260809`. No Docker. One stream.
+`completion_tokens / wall`. Thinking off.
 
 Weights:
 - target: `unsloth/Qwen3.8-27B-NVFP4` (22.57 GB + 0.85 GB MTP sidecar)
 - drafter: `Doopeworld/Qwen3.8-27B-DSpark-vLLM` (2.72 GB)
 
-Serve:
-```
-VLLM_MARLIN_USE_ATOMIC_ADD=1
-vllm serve /path/to/nvfp4 \
-  --served-model-name qwen3.8-27b \
-  --host 127.0.0.1 --port 8002 \
-  --max-model-len 262144 \
-  --gpu-memory-utilization 0.85 \
-  --max-num-batched-tokens 16384 \
-  --enable-prefix-caching \
-  --speculative-config '{"method":"dspark","model":"/path/to/dspark","num_speculative_tokens":K,"draft_sample_method":"probabilistic"}'
-```
+Launch from this repo: `./vllm-start.sh` then `python3 ./vllm-smoke.py --warmup-only`.
 
-Kernel path this build picked: FlashInferCutlassNvFp4LinearKernel, FLASHINFER attn, KV cache 1,357,257 tokens at k=7.
+Kernel path this build picked: FlashInferCutlassNvFp4LinearKernel, FLASHINFER attn.
+KV cache 1,357,257 tokens at depth 7; 1,204,453 tokens at depth 14.
 
-## Workloads
+## Workloads used for the numbers below
 
-**Fresh** — short “write this module” prompt. Nothing in context to copy. Low draft accept.
+**New write** — short program prompt, nothing in context to copy.
 
-**Rewrite** — source file already in the prompt; ask to add a method to every class and dump the whole file. High draft accept (~99%).
+**Repeat file** — a long file already in the prompt; change one field and reprint.
 
-These are single-stream. A new-question harness (sixcat, chat) tracks the fresh column. Concurrent streams share the GPU; per-stream drops.
+A new-question harness tracks the new-write column.
 
-## k=7 (measured)
+## Depth 7
 
 | Workload | prompt tok | out tok | wall s | tok/s | finish |
 |---|---:|---:|---:|---:|---|
-| Fresh (cap 400) | 32 | 146 | 3.62 | **40.33** | stop |
-| Rewrite (cap 1500) | 738 | 1140 | 18.06 | **63.12** | stop |
-| Rewrite (cap 3000) | 1458 | 2300 | 35.68 | **64.45** | stop |
+| New write (cap 400, first req) | 32 | 146 | 3.62 | **40.33** | stop |
+| Repeat file (cap 1500) | 738 | 1140 | 18.06 | **63.12** | stop |
+| Repeat file (cap 3000) | 1458 | 2300 | 35.68 | **64.45** | stop |
 
 Spec counters after those three: 3134 / 3171 draft tokens accepted (**98.8%**).
 
-## k=14 (measured)
-
-Same box, same weights, `num_speculative_tokens=14`. KV cache 1,204,453 tokens.
+## Depth 14
 
 | Workload | prompt tok | out tok | wall s | tok/s | finish |
 |---|---:|---:|---:|---:|---|
-| Fresh (cap 400) | 32 | 146 | 3.82 | **38.19** | stop |
-| Rewrite (cap 1500) | 738 | 1145 | 15.28 | **74.93** | stop |
-| Rewrite (cap 3000) | 1458 | 2300 | 30.85 | **74.56** | stop |
+| New write (cap 400, first req) | 32 | 146 | 3.82 | **38.19** | stop |
+| Repeat file (cap 1500) | 738 | 1145 | 15.28 | **74.93** | stop |
+| Repeat file (cap 3000) | 1458 | 2300 | 30.85 | **74.56** | stop |
 
-k=14 is slower on a cold first request (more wasted drafts) and faster on rewrite.
-
-Warm remeasure (32-token ping first, same process):
+After a 32-token warmup on the same process:
 
 | Workload | prompt tok | out tok | wall s | tok/s | finish |
 |---|---:|---:|---:|---:|---|
-| Fresh (cap 400, warm) | 32 | 146 | 2.91 | **50.13** | stop |
-| Rewrite (cap 3000, warm) | 1458 | 2300 | 30.78 | 74.72 | stop |
-| Rewrite (cap 3000, cached) | 1458 | 2300 | 30.43 | **75.58** | stop |
+| New write (cap 400, warm) | 32 | 146 | 2.91 | **50.13** | stop |
+| Repeat file (cap 3000, warm) | 1458 | 2300 | 30.78 | 74.72 | stop |
+| Repeat file (cap 3000, cached) | 1458 | 2300 | 30.43 | **75.58** | stop |
 
-Quote **50.13** for a new-question harness after one warmup ping. Quote **38.19** only as first-request / cold start. Rewrite is already at the high-accept ceiling (~75).
+Quote **50.13** for a new-question harness after one warmup ping. Quote **38.19** only as first request. Repeat-file sits at ~75.
 
-## Squeeze attempts (same box, same prompts, warmup ping)
+## Squeeze attempts (same box, warmup ping)
 
-None of these beat wide k=14 + warmup.
+None beat wide depth 14 + warmup.
 
-| Config | Fresh warm | Rewrite warm | Rewrite cached |
+| Config | New write warm | Repeat warm | Repeat cached |
 |---|---:|---:|---:|
-| **DSpark k=14, 256k, default seqs (keep)** | **50.13** | 74.72 | **75.58** |
-| DSpark k=14, 32k, `--max-num-seqs 1` | 47.36 | 75.03 | 74.90 |
-| DSpark k=7, 256k, default seqs, warm | 39.14 | 64.04 | 62.86 |
-| In-file MTP `n=3`, 256k | 29.61 | 32.34 | 32.29 |
+| **DSpark depth 14, 256k, default seqs (keep)** | **50.13** | 74.72 | **75.58** |
+| DSpark depth 14, 32k, `--max-num-seqs 1` | 47.36 | 75.03 | 74.90 |
+| DSpark depth 7, 256k, warm | 39.14 | 64.04 | 62.86 |
+| In-file MTP n=3, 256k | 29.61 | 32.34 | 32.29 |
 
-`--max-num-seqs 1` shrank CUDA graphs (capture max 24) and lost ~3 tok/s on fresh. k=7 stays worse on both columns once warm. MTP does not replace DSpark here.
+`--max-num-seqs 1` shrank CUDA graphs (capture max 24) and lost ~3 tok/s on new write.
+Depth 7 stays worse on both columns once warm. MTP does not replace DSpark here.
 
-Default: **DSpark k=14, 256k, warmup ping, no max-num-seqs pin.**
+Default: **DSpark depth 14, 256k, warmup ping, no max-num-seqs pin.**

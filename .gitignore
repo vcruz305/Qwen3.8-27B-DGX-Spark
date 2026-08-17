@@ -2,5 +2,7 @@ models/
 .cache/
 .llama.pid
 .llama.log
+.vllm.pid
+.vllm.log
 *.gguf
 .DS_Store

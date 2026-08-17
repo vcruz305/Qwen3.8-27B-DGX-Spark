@@ -4,19 +4,19 @@
 
 Measured serve for **Qwen3.8-27B** on a single **NVIDIA DGX Spark (GB10 / SM121, ~128 GB unified)**. 2026-08-16.
 
-**Default: vLLM + NVFP4 + DSpark `k=14`, 256k context, one warmup ping.** Fresh **50.13 tok/s**. Rewrite **75.58 tok/s**.
+**Default: vLLM + NVFP4 + DSpark depth 14, 256k context, one warmup ping.** New write **50.13 tok/s**. Repeat file **75.58 tok/s**.
 
 ## Scoreboard (fastest first)
 
 One stream. Spark 9f73 unless noted. vLLM rows are `completion_tokens / wall`, thinking off, after a 32-token warmup unless marked cold. GGUF rows are `llama-bench` tg128 (no spec).
 
-| Rank | Config | Fresh / decode | Rewrite | Notes |
+| Rank | Config | New write / decode | Repeat file | Notes |
 |---:|---|---:|---:|---|
-| 1 | **vLLM NVFP4 + DSpark k=14, 256k (warm)** | **50.13** | **75.58** cached | keep this |
-| 2 | vLLM NVFP4 + DSpark k=14, 32k, `--max-num-seqs 1` | 47.36 | 75.03 | tighter graphs, slower |
-| 3 | vLLM NVFP4 + DSpark k=7, 256k (cold) | 40.33 | 64.45 | first-request k=7 |
-| 4 | vLLM NVFP4 + DSpark k=7, 256k (warm) | 39.14 | 64.04 | worse than k=14 once warm |
-| 5 | vLLM NVFP4 + DSpark k=14, 256k (cold) | 38.19 | 74.56 | first request pays JIT |
+| 1 | **vLLM NVFP4 + DSpark depth 14, 256k (warm)** | **50.13** | **75.58** cached | keep this |
+| 2 | vLLM NVFP4 + DSpark depth 14, 32k, `--max-num-seqs 1` | 47.36 | 75.03 | tighter graphs, slower |
+| 3 | vLLM NVFP4 + DSpark depth 7, 256k (cold) | 40.33 | 64.45 | first-request depth 7 |
+| 4 | vLLM NVFP4 + DSpark depth 7, 256k (warm) | 39.14 | 64.04 | worse than 14 once warm |
+| 5 | vLLM NVFP4 + DSpark depth 14, 256k (cold) | 38.19 | 74.56 | first request pays JIT |
 | 6 | vLLM NVFP4 + in-file MTP n=3 | 29.61 | 32.34 | do not use |
 | 7 | llama.cpp stock Q4_K_M (b610) | **12.38** tg128 | — | fastest GGUF |
 | 8 | llama.cpp AEON Q4_K_M + baked MTP (9f73) | 12.19 tg128 | — | sixcat run used this |
@@ -25,23 +25,19 @@ One stream. Spark 9f73 unless noted. vLLM rows are `completion_tokens / wall`, t
 
 Do not average vLLM wall-clock tok/s with llama.cpp tg128.
 
-**Fresh** = short “write this module” prompt (harness / chat). **Rewrite** = source already in the prompt, add a method to every class, dump the file (high draft-accept).
+**New write** = short “write this program” prompt (harness / chat). **Repeat file** = a long file already in the prompt; change one field everywhere and reprint it (high draft-accept).
 
 ## Fastest serve
 
 ```bash
-VLLM_MARLIN_USE_ATOMIC_ADD=1 \
-vllm serve /path/to/nvfp4 \
-  --served-model-name qwen3.8-27b \
-  --host 127.0.0.1 --port 8002 \
-  --max-model-len 262144 \
-  --gpu-memory-utilization 0.85 \
-  --max-num-batched-tokens 16384 \
-  --enable-prefix-caching \
-  --speculative-config '{"method":"dspark","model":"/path/to/dspark","num_speculative_tokens":14,"draft_sample_method":"probabilistic"}'
+# weights already on disk as models/nvfp4 and models/dspark
+./vllm-start.sh
+python3 ./vllm-smoke.py --warmup-only
+python3 ./vllm-smoke.py --label warm
+./vllm-stop.sh
 ```
 
-Then ping once (`max_tokens=32`) before you time anything.
+`DEPTH=14` is the default. Host vLLM only.
 
 - Target: [unsloth/Qwen3.8-27B-NVFP4](https://huggingface.co/unsloth/Qwen3.8-27B-NVFP4)
 - Drafter: [Doopeworld/Qwen3.8-27B-DSpark-vLLM](https://huggingface.co/Doopeworld/Qwen3.8-27B-DSpark-vLLM)
@@ -50,34 +46,34 @@ Then ping once (`max_tokens=32`) before you time anything.
 
 ## vLLM detail
 
-### 1. DSpark k=14, 256k, warm (winner)
+### 1. DSpark depth 14, 256k, warm (winner)
 
 | Workload | out tok | wall s | tok/s |
 |---|---:|---:|---:|
-| Fresh (cap 400) | 146 | 2.91 | **50.13** |
-| Rewrite (cap 3000) | 2300 | 30.78 | 74.72 |
-| Rewrite (cap 3000, prefix cached) | 2300 | 30.43 | **75.58** |
+| New write (cap 400) | 146 | 2.91 | **50.13** |
+| Repeat file (cap 3000) | 2300 | 30.78 | 74.72 |
+| Repeat file (cap 3000, prefix cached) | 2300 | 30.43 | **75.58** |
 
-Cold first request on this same process: fresh **38.19**, rewrite **74.56**.
+Cold first request on this same process: new write **38.19**, repeat file **74.56**.
 
-### 2. DSpark k=14, 32k, `--max-num-seqs 1`
+### 2. DSpark depth 14, 32k, `--max-num-seqs 1`
 
-Fresh **47.36**. Rewrite **75.03**. CUDA graph capture max 24. Dropped.
+New write **47.36**. Repeat file **75.03**. CUDA graph capture max 24. Dropped.
 
-### 3. DSpark k=7, 256k
+### 3. DSpark depth 7, 256k
 
 | Workload | tok/s |
 |---|---:|
-| Fresh cold | 40.33 |
-| Fresh warm | 39.14 |
-| Rewrite cap 3000 cold | 64.45 |
-| Rewrite cap 3000 warm | 64.04 |
+| New write cold | 40.33 |
+| New write warm | 39.14 |
+| Repeat file cap 3000 cold | 64.45 |
+| Repeat file cap 3000 warm | 64.04 |
 
-Draft accept on the cold k=7 trio: **98.8%** (3134 / 3171).
+Draft accept on the cold depth-7 trio: **98.8%** (3134 / 3171).
 
 ### 4. In-file MTP n=3
 
-Fresh **29.61**. Rewrite **32.34**. Lost.
+New write **29.61**. Repeat file **32.34**. Lost.
 
 ## llama.cpp GGUF (slower decode)
 
@@ -181,6 +177,9 @@ python -m sixcat --base-url http://127.0.0.1:8085/v1 --model qwen38-27b --limit 
 | `bench.sh` | `llama-bench` pp512 / tg128 |
 | `start.sh` | `llama-server` if present. `SPEC=mtp` for AEON `draft-mtp` |
 | `stop.sh` | Kills `.llama.pid` |
+| `vllm-start.sh` | Host vLLM + DSpark. `DEPTH=14` default |
+| `vllm-smoke.py` | Warmup + new-write + repeat-file timing |
+| `vllm-stop.sh` | Kills `.vllm.pid` |
 
 ## Credits
 
