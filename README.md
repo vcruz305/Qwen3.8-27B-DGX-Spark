@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-Measured serve for **Qwen3.8-27B** on a single **NVIDIA DGX Spark (GB10 / SM121, ~128 GB unified)**. 2026-08-16.
+Measured serve for **Qwen3.8-27B** on a single **NVIDIA DGX Spark (GB10 / SM121, ~128 GB unified)**. 2026-08-16 (vLLM / GGUF) + 2026-08-17 (SGLang).
 
 **Default: vLLM + NVFP4 + DSpark depth 14, 256k context, one warmup ping.** New write **50.13 tok/s**. Repeat file **75.58 tok/s**.
 
@@ -19,9 +19,10 @@ One stream. Spark 9f73 unless noted. vLLM rows are `completion_tokens / wall`, t
 | 5 | vLLM NVFP4 + DSpark depth 14, 256k (cold) | 38.19 | 74.56 | first request pays JIT |
 | 6 | vLLM NVFP4 + in-file MTP n=3 | 29.61 | 32.34 | do not use |
 | 7 | llama.cpp stock Q4_K_M (b610) | **12.38** tg128 | — | fastest GGUF |
-| 8 | llama.cpp AEON Q4_K_M + baked MTP (9f73) | 12.19 tg128 | — | sixcat run used this |
-| 9 | llama.cpp stock Q5_K_M | 10.82 tg128 | — | |
-| 10 | llama.cpp stock Q6_K | 9.42 tg128 | — | |
+| 8 | **SGLang NVFP4** RadixArk, mem=0.80 (b610) | **11.94** | **11.97** cached | official 0.95 SIGKILL |
+| 9 | llama.cpp AEON Q4_K_M + baked MTP (9f73) | 12.19 tg128 | — | sixcat run used this |
+| 10 | llama.cpp stock Q5_K_M | 10.82 tg128 | — | |
+| 11 | llama.cpp stock Q6_K | 9.42 tg128 | — | |
 
 Do not average vLLM wall-clock tok/s with llama.cpp tg128.
 
@@ -74,6 +75,26 @@ Draft accept on the cold depth-7 trio: **98.8%** (3134 / 3171).
 ### 4. In-file MTP n=3
 
 New write **29.61**. Repeat file **32.34**. Lost.
+
+## SGLang (NVFP4, no spec)
+
+Official cookbook cell (`mem=0.95`, no mamba pin) **SIGKILL'd twice** on b610 (autotune, then CUDA-graph `bs=56` with ~8 GB left). Survivable cell: `mem=0.80`, `--mamba-full-memory-ratio 4.59`, `--cuda-graph-max-bs 8`, `--disable-flashinfer-autotune`. Pre-link FlashInfer FP4 GEMM at `MAX_JOBS=1` on an empty box.
+
+```bash
+QUANT=nvfp4 MEM=0.80 EXTRA_ARGS='--disable-flashinfer-autotune --cuda-graph-max-bs 8 --mamba-full-memory-ratio 4.59' \
+  ./sglang-start.sh
+python3 ./vllm-smoke.py --base http://127.0.0.1:30000/v1 --warmup-only
+python3 ./vllm-smoke.py --base http://127.0.0.1:30000/v1 --label sglang-nvfp4-0.80
+./sglang-stop.sh
+```
+
+| Workload | out tok | wall s | tok/s |
+|---|---:|---:|---:|
+| New write (cap 400, warm) | 81 | 6.78 | **11.94** |
+| Repeat file (cap 3000) | 2323 | 194.72 | 11.93 |
+| Repeat file (cap 3000, cached) | 2328 | 194.54 | **11.97** |
+
+Host SGLang `0.5.17` on b610. Target: [RadixArk/Qwen3.8-27B-NVFP4](https://huggingface.co/RadixArk/Qwen3.8-27B-NVFP4). Receipt: [`logs/sglang-nvfp4-20260817.md`](logs/sglang-nvfp4-20260817.md). No DSpark / no MTP. Do not treat this as a vLLM replacement.
 
 ## llama.cpp GGUF (slower decode)
 
@@ -180,6 +201,9 @@ python -m sixcat --base-url http://127.0.0.1:8085/v1 --model qwen38-27b --limit 
 | `vllm-start.sh` | Host vLLM + DSpark. `DEPTH=14` default |
 | `vllm-smoke.py` | Warmup + new-write + repeat-file timing |
 | `vllm-stop.sh` | Kills `.vllm.pid` |
+| `sglang-download.sh` | `QUANT=nvfp4` or `QUANT=fp8` Hub snapshot |
+| `sglang-start.sh` | Host SGLang. `MEM` / `EXTRA_ARGS` override official 0.95 |
+| `sglang-stop.sh` | Kills `.sglang.pid` |
 
 ## Credits
 
@@ -191,3 +215,6 @@ python -m sixcat --base-url http://127.0.0.1:8085/v1 --model qwen38-27b --limit 
 - [sixcat-eval](https://github.com/vcruz305/sixcat-eval) — quality battery
 - [llama.cpp](https://github.com/ggml-org/llama.cpp)
 - [vLLM](https://github.com/vllm-project/vllm)
+- [SGLang](https://github.com/sgl-project/sglang)
+- [RadixArk/Qwen3.8-27B-NVFP4](https://huggingface.co/RadixArk/Qwen3.8-27B-NVFP4)
+- [Qwen/Qwen3.8-27B-FP8](https://huggingface.co/Qwen/Qwen3.8-27B-FP8)
