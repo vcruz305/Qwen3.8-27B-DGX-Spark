@@ -51,6 +51,14 @@ Same box, same weights, `num_speculative_tokens=14`. KV cache 1,204,453 tokens.
 | Rewrite (cap 1500) | 738 | 1145 | 15.28 | **74.93** | stop |
 | Rewrite (cap 3000) | 1458 | 2300 | 30.85 | **74.56** | stop |
 
-k=14 is slower on fresh (more wasted drafts) and faster on rewrite. Quote **38.19** for a new-question harness. Quote **74.56–74.93** only for rewrite-with-source-in-prompt.
+k=14 is slower on a cold first request (more wasted drafts) and faster on rewrite.
 
-Spec counters after those three: 3228 / 5096 draft tokens accepted (**63.3%**). Mean ~9.87 accepted tok/draft (3228 / 364).
+Warm remeasure (32-token ping first, same process):
+
+| Workload | prompt tok | out tok | wall s | tok/s | finish |
+|---|---:|---:|---:|---:|---|
+| Fresh (cap 400, warm) | 32 | 146 | 2.91 | **50.13** | stop |
+| Rewrite (cap 3000, warm) | 1458 | 2300 | 30.78 | 74.72 | stop |
+| Rewrite (cap 3000, cached) | 1458 | 2300 | 30.43 | **75.58** | stop |
+
+Quote **50.13** for a new-question harness after one warmup ping. Quote **38.19** only as cold / first request. Rewrite is already at the high-accept ceiling (~75).

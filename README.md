@@ -135,7 +135,15 @@ Draft accept after those three: **98.8%** (3134 / 3171).
 | Rewrite (cap 1500) | 1145 | 15.28 | **74.93** |
 | Rewrite (cap 3000) | 2300 | 30.85 | **74.56** |
 
-k=14 is slower on fresh and faster on rewrite. Quote **38.19** for a new-question harness.
+k=14 is slower on a **cold** first request (38.19) and faster on rewrite. After a 32-token warmup on the same server:
+
+| Workload | out tok | wall s | tok/s |
+|---|---:|---:|---:|
+| Fresh (cap 400, warm) | 146 | 2.91 | **50.13** |
+| Rewrite (cap 3000, warm) | 2300 | 30.78 | 74.72 |
+| Rewrite (cap 3000, prefix cached) | 2300 | 30.43 | **75.58** |
+
+Quote **50.13** for a new-question harness after one warmup ping. Quote **38.19** only as first-request / cold start.
 
 ```bash
 VLLM_MARLIN_USE_ATOMIC_ADD=1 \
